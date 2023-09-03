@@ -12,6 +12,7 @@ for (let i = 0; i <= n; i++) {
 
   Object.keys(numMap).forEach((num: string | number) => {
     num = Number(num);
+    // An exercise in branchless programming, but now it has to keep doing concatenation with ''
     out += numMap[Number((i % num == 0)) * num];
   })
 

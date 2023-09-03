@@ -1,17 +1,17 @@
 /*
-Program that creates optimised for execution speed versions of other programs
+A program that creates optimised for execution speed versions of other programs
 Usage: go run FastestProgram.go (program) (arguments)
 Output: (program)-fastest.out
 
 The program will also attempt to use metaprogramming to reprogram the input program
-and strip unneeded code, it's most efficient when it's trained with computationaly
+and strip unneeded code, it's most efficient when it's trained with computationally
 expensive input options, so it can analyze and create optimal code for all use cases
 
 Example usage: go run FastestProgram.go node Fibonacci.js 105
 Example output: node-fastest.out
 
-In this example, the program sucessfully merges the compiled Fibonacci.js program with
-only the binary code of the node execution execution environment needed to run it
+In this example, the program successfully merges the compiled Fibonacci.js program
+with only the binary code of the node execution environment needed to run it
 */
 
 package main
