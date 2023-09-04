@@ -1,3 +1,5 @@
 node_modules
 FizzBuzzBazz/*.js
 Fibonacci/*.js
+FastestProgram/*-fastest.c
+FastestProgram/*-fastest.out

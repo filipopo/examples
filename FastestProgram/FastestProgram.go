@@ -21,20 +21,24 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"strings" 
+	"strings"
 )
 
 // Template to run metaprogramming algorithm from
-var program = []string {
-	"#include <stdio.h>",
-	"#include <stdlib.h>",
-	"char *lines[] = {",
-	"};",
-	"int main(int argc, char *argv[]) {",
-	"  int n = argc > 1 ? atoi(argv[1]) : sizeof(lines) / sizeof(lines[0]);",
-	"  for (int i = 0; i < n; i++)",
-	"    printf(\"%s\\n\", lines[i]);",
-	"}",
+var program = [][]string{
+	{
+		"#include <stdio.h>",
+		"#include <stdlib.h>",
+		"char *lines[] = {",
+	},
+	{
+		"};",
+		"int main(int argc, char *argv[]) {",
+		"  int n = argc > 1 ? atoi(argv[1]) : sizeof(lines) / sizeof(lines[0]);",
+		"  for (int i = 0; i < n; i++)",
+		"    printf(\"%s\\n\", lines[i]);",
+		"}",
+	},
 }
 
 // Handles errors and allows code deduplication
@@ -51,29 +55,30 @@ func main() {
 		log.Fatal("You need to pass in the program and it's arguments")
 	}
 
-	// Starts analysis of the execution of input program
+	// Starts analysis of the bytecode execution from input program
 	cmd := exec.Command(os.Args[1], os.Args[2:]...)
+	// Fills up the ram and crashes if the output is too big, could pipe instead
 	output := errHandler(cmd.Output()).([]byte)
 
-	// Applies metaprogramming template on the analysed running bytecode
+	// Formats the previously analysed bytecode for the metaprogramming template
 	lines := strings.Split(strings.TrimSuffix(string(output), "\n"), "\n")
-	for i := len(lines) - 1; i >= 0; i-- {
-		program = append(program[:4], program[3:]...)
-		program[3] = "  \"" + lines[i] + "\","
+	for i, line := range lines {
+		lines[i] = fmt.Sprintf("  \"%s\",", line)
 	}
 
+	// Applies metaprogramming template to the intermediate code and writes it
 	name := os.Args[1] + "-fastest."
-
-	// Writes intermediate code with the applied metaprogrraming template
 	file := errHandler(os.Create(name + "c")).(*os.File)
 	defer file.Close()
 
-	for _, line := range program {
-		errHandler(file.WriteString(line + "\n"))
+	for _, section := range [][]string{program[0], lines, program[1]} {
+		for _, line := range section {
+			errHandler(file.WriteString(line + "\n"))
+		}
 	}
 
 	// Compiles the intermediate code with clang, using the fastest settings
-	cmd = exec.Command("clang", name + "c", "-o" + name + "out", "-Ofast")
+	cmd = exec.Command("clang", name+"c", "-o"+name+"out", "-Ofast")
 	errHandler(nil, cmd.Run())
 
 	fmt.Println(name + "out created!")

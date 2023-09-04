@@ -31,7 +31,7 @@ me@PC FastestProgram % time ./node-fastest.out 105
 ...
 2.4278932283999755e+21
 3.9284137646068717e+21
-./node-fastest.out  0.00s user 0.00s system 69% cpu 0.005 total
+./node-fastest.out 105  0.00s user 0.00s system 69% cpu 0.005 total
 ```
 From the results, it can be concluded that it's 11 times faster on average!
 
@@ -41,8 +41,8 @@ me@PC FastestProgram % time ./node-fastest.out 10
 0
 1
 ...
-21
 34
+55
 ./node-fastest.out 10  0.00s user 0.00s system 67% cpu 0.003 total
 ```
 0.003 seconds for the first 10 numbers of the Fibonacci sequence and 0.005 for the first 105, It seems like the time complexity is very logarithmic!
