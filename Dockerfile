@@ -22,7 +22,10 @@ FROM debian:bookworm-slim
 WORKDIR /usr/src/app
 
 # Install run dependencies
-RUN apt update && apt install -y clang nodejs time
+RUN apt update && \ 
+    apt install -y clang nodejs time && \ 
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy compiled FastestProgram
 COPY --from=build /opt/FastestProgram .
