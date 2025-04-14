@@ -1,4 +1,4 @@
-FROM golang:1.21-bookworm as build
+FROM golang:1.21-bookworm AS build
 
 WORKDIR /opt
 
