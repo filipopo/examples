@@ -29,7 +29,7 @@ jobs:
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/examples-test
           tags: |
-            type=raw,value=${GITHUB_RUN_ID}
+            type=raw,value=${{ github.run_id }}
             type=raw,value=latest
 
       - name: Build and push Docker image
