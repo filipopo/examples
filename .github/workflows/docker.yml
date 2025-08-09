@@ -28,7 +28,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/examples-test
-          tags: ${GITHUB_RUN_ID} latest
+          tags: |
+            type=raw,value=${GITHUB_RUN_ID}
+            type=raw,value=latest
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
